@@ -1,0 +1,27 @@
+services:
+  lyricflow:
+    image: ghcr.io/laoning666/lyricflow:latest
+    container_name: lyricflow
+    
+    # Load environment variables from .env file
+    # 从 .env 文件加载环境变量
+    # Copy .env.example to .env first: cp .env.example .env
+    # 先复制配置文件：cp .env.example .env
+    env_file:
+      - .env
+    
+    volumes:
+      # Map your music folders here
+      # 在此映射你的音乐文件夹
+      # Format: /host/path:/container/path:rw
+      # 格式：/宿主机路径:/容器路径:rw
+      - /volume1/music:/music/main:rw
+      # You can add multiple folders / 可以添加多个文件夹:
+      # - /volume2/music_lossless:/music/lossless:rw
+    
+    
+    # Auto restart for scheduled scanning
+    # 定时扫描时自动重启
+    # Uncomment if SCAN_INTERVAL > 0
+    # 如果 SCAN_INTERVAL > 0，取消下行注释
+    # restart: unless-stopped

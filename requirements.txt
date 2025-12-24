@@ -1,0 +1,3 @@
+httpx>=0.27.0
+mutagen>=1.47.0
+pytest>=8.0.0
