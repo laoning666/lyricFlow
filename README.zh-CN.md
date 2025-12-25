@@ -24,14 +24,12 @@
 
 ### 方式一：Docker Compose（推荐）
 
-1. 下载配置文件：
+1. 下载 docker-compose.yml：
 ```bash
 curl -O https://raw.githubusercontent.com/laoning666/LyricFlow/main/docker-compose.yml
-curl -O https://raw.githubusercontent.com/laoning666/LyricFlow/main/.env.example
-cp .env.example .env
 ```
 
-2. 编辑 `.env` 和 `docker-compose.yml`，修改音乐文件夹路径：
+2. 编辑 `docker-compose.yml`，修改音乐文件夹路径：
 ```yaml
 volumes:
   - /你的音乐路径:/music:rw
@@ -41,6 +39,8 @@ volumes:
 ```bash
 docker-compose up -d
 ```
+
+> **提示**：你也可以使用 `.env` 文件进行配置。取消 docker-compose.yml 中 `env_file` 部分的注释，并下载 `.env.example` 文件。
 
 ### 方式二：Docker 命令
 

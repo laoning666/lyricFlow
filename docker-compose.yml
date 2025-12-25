@@ -3,12 +3,46 @@ services:
     image: ghcr.io/laoning666/lyricflow:latest
     container_name: lyricflow
     
-    # Load environment variables from .env file
-    # 从 .env 文件加载环境变量
-    # Copy .env.example to .env first: cp .env.example .env
-    # 先复制配置文件：cp .env.example .env
-    env_file:
-      - .env
+    # ============================================
+    # Option 1: Use .env file (recommended)
+    # 方式一：使用 .env 文件（推荐）
+    # Copy .env.example to .env: cp .env.example .env
+    # 复制配置文件：cp .env.example .env
+    # ============================================
+    # env_file:
+    #   - .env
+    
+    # ============================================
+    # Option 2: Set environment variables directly
+    # 方式二：直接设置环境变量
+    # ============================================
+    environment:
+      # Music path inside container / 容器内音乐路径
+      - MUSIC_PATH=/music
+      
+      # Scan interval in days / 扫描间隔（天）
+      # 0 = run once / 运行一次
+      # 1 = daily / 每天
+      # 7 = weekly / 每周
+      - SCAN_INTERVAL_DAYS=0
+      
+      # Download options / 下载选项
+      - DOWNLOAD_LYRICS=true
+      - DOWNLOAD_COVER=true
+      - OVERWRITE_LYRICS=false
+      - OVERWRITE_COVER=false
+      
+      # Infer artist/album from folder structure
+      # 从文件夹结构推断歌手/专辑
+      # Expects: /music/Artist/Album/song.mp3
+      - USE_FOLDER_STRUCTURE=true
+      
+      # Default artist (fallback) / 默认歌手（备用）
+      # Example: DEFAULT_ARTIST=周杰伦
+      - DEFAULT_ARTIST=
+      
+      # Platform priority / 搜索平台优先级
+      - PLATFORMS=netease,kuwo,qq
     
     volumes:
       # Map your music folders here
@@ -18,7 +52,6 @@ services:
       - /volume1/music:/music/main:rw
       # You can add multiple folders / 可以添加多个文件夹:
       # - /volume2/music_lossless:/music/lossless:rw
-    
     
     # Auto restart for scheduled scanning
     # 定时扫描时自动重启

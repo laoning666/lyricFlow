@@ -24,14 +24,12 @@
 
 ### Option 1: Docker Compose (Recommended)
 
-1. Download configuration files:
+1. Download docker-compose.yml:
 ```bash
 curl -O https://raw.githubusercontent.com/laoning666/LyricFlow/main/docker-compose.yml
-curl -O https://raw.githubusercontent.com/laoning666/LyricFlow/main/.env.example
-cp .env.example .env
 ```
 
-2. Edit `.env` and `docker-compose.yml` to set your music folder path:
+2. Edit `docker-compose.yml` to set your music folder path:
 ```yaml
 volumes:
   - /your/music/path:/music:rw
@@ -41,6 +39,8 @@ volumes:
 ```bash
 docker-compose up -d
 ```
+
+> **Tip**: You can also use `.env` file for configuration. Uncomment the `env_file` section in docker-compose.yml and download `.env.example`.
 
 ### Option 2: Docker Run
 
