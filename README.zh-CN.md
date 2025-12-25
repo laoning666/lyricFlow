@@ -69,8 +69,9 @@ docker run -d \
 # 安装依赖
 pip install -r requirements.txt
 
-# 运行
-MUSIC_PATH=/你的音乐路径 python -m src.main
+# 设置音乐路径并运行
+export MUSIC_PATH=/path/to/your/music
+python -m src.main
 ```
 
 ## 配置项
