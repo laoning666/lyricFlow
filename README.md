@@ -55,10 +55,10 @@ docker run --rm \
   -v /your/music/path:/music \
   laoning666/lyricflow:latest
 
-# Run with scheduled scanning (every hour)
+# Run with scheduled scanning (daily)
 docker run -d \
   -v /your/music/path:/music \
-  -e SCAN_INTERVAL=3600 \
+  -e SCAN_INTERVAL_DAYS=1 \
   --name lyricflow \
   ghcr.io/laoning666/lyricflow:latest
 ```
@@ -79,7 +79,7 @@ python -m src.main
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `MUSIC_PATH` | `/music` | Music folder path |
-| `SCAN_INTERVAL` | `0` | Scan interval in seconds (0 = run once) |
+| `SCAN_INTERVAL_DAYS` | `0` | Scan interval in days (0 = run once, 1 = daily) |
 | `DOWNLOAD_LYRICS` | `true` | Download lyrics (.lrc files) |
 | `DOWNLOAD_COVER` | `true` | Download album covers (cover.jpg) |
 | `OVERWRITE_LYRICS` | `false` | Overwrite existing lyrics |

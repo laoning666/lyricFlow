@@ -22,6 +22,6 @@ services:
     
     # Auto restart for scheduled scanning
     # 定时扫描时自动重启
-    # Uncomment if SCAN_INTERVAL > 0
-    # 如果 SCAN_INTERVAL > 0，取消下行注释
+    # Uncomment if SCAN_INTERVAL_DAYS > 0
+    # 如果 SCAN_INTERVAL_DAYS > 0，取消下行注释
     # restart: unless-stopped

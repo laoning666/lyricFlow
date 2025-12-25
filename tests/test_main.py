@@ -17,7 +17,7 @@ class TestConfig:
     def test_default_config(self):
         config = Config()
         assert config.music_path == "/music"
-        assert config.scan_interval == 0
+        assert config.scan_interval_days == 0
         assert config.download_lyrics is True
         assert config.download_cover is True
         assert "netease" in config.platforms
@@ -25,13 +25,13 @@ class TestConfig:
     def test_from_env(self):
         with patch.dict("os.environ", {
             "MUSIC_PATH": "/test/music",
-            "SCAN_INTERVAL": "3600",
+            "SCAN_INTERVAL_DAYS": "7",
             "OVERWRITE_LYRICS": "true",
             "PLATFORMS": "kuwo,qq",
         }):
             config = Config.from_env()
             assert config.music_path == "/test/music"
-            assert config.scan_interval == 3600
+            assert config.scan_interval_days == 7
             assert config.overwrite_lyrics is True
             assert config.platforms == ["kuwo", "qq"]
 

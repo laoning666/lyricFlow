@@ -121,13 +121,14 @@ def main():
     config = Config.from_env()
     tool = LyricFlow(config)
     
-    if config.scan_interval > 0:
+    if config.scan_interval_days > 0:
         # Continuous mode with interval
-        logger.info(f"Running in continuous mode, interval: {config.scan_interval}s")
+        interval_seconds = config.scan_interval_days * 24 * 60 * 60
+        logger.info(f"Running in continuous mode, interval: {config.scan_interval_days} day(s)")
         while True:
             tool.run()
-            logger.info(f"Sleeping for {config.scan_interval} seconds...")
-            time.sleep(config.scan_interval)
+            logger.info(f"Sleeping for {config.scan_interval_days} day(s)...")
+            time.sleep(interval_seconds)
             # Reset stats for next run
             tool.stats = {k: 0 for k in tool.stats}
     else:

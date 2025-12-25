@@ -29,8 +29,8 @@ COPY src/ ./src/
 # Music path inside container / 容器内音乐路径
 ENV MUSIC_PATH=/music
 
-# Scan interval: 0=once, >0=seconds / 扫描间隔：0=一次，>0=秒
-ENV SCAN_INTERVAL=0
+# Scan interval in days: 0=once, 1=daily, 7=weekly / 扫描间隔（天）：0=一次，1=每天，7=每周
+ENV SCAN_INTERVAL_DAYS=0
 
 # Download options / 下载选项
 ENV DOWNLOAD_LYRICS=true

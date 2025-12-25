@@ -13,7 +13,7 @@ class Config:
     
     # Scanning
     music_path: str = "/music"
-    scan_interval: int = 0  # 0 = run once, >0 = interval in seconds
+    scan_interval_days: int = 0  # 0 = run once, >0 = interval in days
     
     # Behavior
     overwrite_lyrics: bool = False
@@ -47,7 +47,7 @@ class Config:
         return cls(
             api_base_url=os.getenv("API_BASE_URL", "https://music-dl.sayqz.com"),
             music_path=os.getenv("MUSIC_PATH", "/music"),
-            scan_interval=int(os.getenv("SCAN_INTERVAL", "0")),
+            scan_interval_days=int(os.getenv("SCAN_INTERVAL_DAYS", "0")),
             overwrite_lyrics=os.getenv("OVERWRITE_LYRICS", "false").lower() == "true",
             overwrite_cover=os.getenv("OVERWRITE_COVER", "false").lower() == "true",
             download_lyrics=os.getenv("DOWNLOAD_LYRICS", "true").lower() == "true",

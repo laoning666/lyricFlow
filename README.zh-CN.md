@@ -55,10 +55,10 @@ docker run --rm \
   -v /你的音乐路径:/music \
   laoning666/lyricflow:latest
 
-# 定时扫描（每小时）
+# 定时扫描（每天）
 docker run -d \
   -v /你的音乐路径:/music \
-  -e SCAN_INTERVAL=3600 \
+  -e SCAN_INTERVAL_DAYS=1 \
   --name lyricflow \
   ghcr.io/laoning666/lyricflow:latest
 ```
@@ -79,7 +79,7 @@ python -m src.main
 | 环境变量 | 默认值 | 说明 |
 |----------|--------|------|
 | `MUSIC_PATH` | `/music` | 音乐文件夹路径 |
-| `SCAN_INTERVAL` | `0` | 扫描间隔（秒），0 = 只扫描一次 |
+| `SCAN_INTERVAL_DAYS` | `0` | 扫描间隔（天），0 = 只扫描一次，1 = 每天 |
 | `DOWNLOAD_LYRICS` | `true` | 是否下载歌词（.lrc 文件） |
 | `DOWNLOAD_COVER` | `true` | 是否下载封面（cover.jpg） |
 | `OVERWRITE_LYRICS` | `false` | 是否覆盖已有歌词 |
