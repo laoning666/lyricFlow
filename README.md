@@ -132,4 +132,4 @@ This tool uses [TuneHub API](https://music-dl.sayqz.com) for searching and downl
 
 ## License
 
-MIT
+[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) - Non-commercial use only

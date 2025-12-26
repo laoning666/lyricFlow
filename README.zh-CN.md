@@ -132,4 +132,4 @@ volumes:
 
 ## 开源协议
 
-MIT
+[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) - 仅限非商业用途
