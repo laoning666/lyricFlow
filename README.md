@@ -101,10 +101,13 @@ For best results, organize your music like this:
 ├── Artist Name/
 │   ├── Album Name/
 │   │   ├── song1.mp3
-│   │   ├── song2.flac
-│   │   ├── song1.lrc      ← Generated
-│   │   ├── song2.lrc      ← Generated
-│   │   └── cover.jpg      ← Generated
+│   │   └── cover.jpg
+│   └── song2.mp3 (Directly under Artist folder)
+```
+
+Two structures are supported:
+1. **Artist/Album/Song.mp3** (Recommended): Automatically infers Artist and Album.
+2. **Artist/Song.mp3**: Automatically infers Artist (Album will be empty).
 ```
 
 The tool will:

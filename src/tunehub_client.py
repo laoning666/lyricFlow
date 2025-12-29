@@ -141,7 +141,8 @@ class TuneHubClient:
                 score += 50
             
             # Artist match
-            if artist_lower in r_artist or r_artist in artist_lower:
+            # Ensure artist_lower is not empty to avoid matching everything
+            if artist_lower and (artist_lower in r_artist or r_artist in artist_lower):
                 score += 30
             
             # Platform priority

@@ -99,14 +99,24 @@ class MusicScanner:
                 
                 # Use grandparent as artist if no ID3 artist
                 # Make sure grandparent is not the music root itself
+                # Use grandparent as artist if no ID3 artist
+                # Make sure grandparent is not the music root itself
                 if not artist and grandparent.name and grandparent.resolve() != music_root:
                     artist = grandparent.name
                     logger.debug(f"No artist tag, using folder: {artist}")
+                elif not artist and parent.name and grandparent.resolve() == music_root:
+                    # Shallow structure: Artist/song.mp3
+                    # Parent is likely the artist, not the album
+                    artist = parent.name
+                    album = ""  # Clear album as it was likely misidentified
+                    logger.debug(f"Shallow structure detected. Using parent as artist: {artist}")
                 
                 # Use parent as album if no ID3 album
-                if not album and parent.name:
-                    album = parent.name
-                    logger.debug(f"No album tag, using folder: {album}")
+                if not album and parent.name and not (grandparent.resolve() == music_root and not artist):
+                    # Only use parent as album if it wasn't just used as artist
+                    if parent.name != artist:
+                        album = parent.name
+                        logger.debug(f"No album tag, using folder: {album}")
             
             # Fallback to default_artist if still no artist
             if not artist and self.config.default_artist:
