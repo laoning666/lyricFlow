@@ -21,6 +21,11 @@ class Config:
     download_lyrics: bool = True
     download_cover: bool = True
     
+    # Embedding behavior
+    embed_lyrics: bool = False      # Embed lyrics into audio file metadata
+    embed_cover: bool = False       # Embed cover into audio file metadata
+    overwrite_embedded: bool = False  # Overwrite already embedded data
+    
     # Default artist (used when ID3 tag has no artist info and folder inference fails)
     default_artist: str = ""
     
@@ -52,6 +57,9 @@ class Config:
             overwrite_cover=os.getenv("OVERWRITE_COVER", "false").lower() == "true",
             download_lyrics=os.getenv("DOWNLOAD_LYRICS", "true").lower() == "true",
             download_cover=os.getenv("DOWNLOAD_COVER", "true").lower() == "true",
+            embed_lyrics=os.getenv("EMBED_LYRICS", "false").lower() == "true",
+            embed_cover=os.getenv("EMBED_COVER", "false").lower() == "true",
+            overwrite_embedded=os.getenv("OVERWRITE_EMBEDDED", "false").lower() == "true",
             default_artist=os.getenv("DEFAULT_ARTIST", ""),
             use_folder_structure=os.getenv("USE_FOLDER_STRUCTURE", "true").lower() == "true",
             platforms=platforms,

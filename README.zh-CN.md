@@ -9,6 +9,7 @@
 - 🎵 扫描音乐文件夹（支持 MP3、FLAC、M4A、WAV 等格式）
 - 📝 自动下载歌词，保存为 `.lrc` 文件
 - 🖼️ 自动下载专辑封面，保存为 `cover.jpg`
+- 🏷️ 将歌词和封面嵌入音频元数据（ID3/FLAC/MP4）
 - 🔄 增量处理，跳过已有歌词/封面的文件
 - ⏰ 支持定时扫描模式
 - 🐳 Docker 容器化部署
@@ -82,8 +83,11 @@ python -m src.main
 | `SCAN_INTERVAL_DAYS` | `0` | 扫描间隔（天），0 = 只扫描一次，1 = 每天 |
 | `DOWNLOAD_LYRICS` | `true` | 是否下载歌词（.lrc 文件） |
 | `DOWNLOAD_COVER` | `true` | 是否下载封面（cover.jpg） |
+| `EMBED_LYRICS` | `false` | 是否将歌词嵌入音频元数据 |
+| `EMBED_COVER` | `false` | 是否将封面嵌入音频元数据 |
 | `OVERWRITE_LYRICS` | `false` | 是否覆盖已有歌词 |
 | `OVERWRITE_COVER` | `false` | 是否覆盖已有封面 |
+| `OVERWRITE_EMBEDDED` | `false` | 是否覆盖已嵌入的数据 |
 | `USE_FOLDER_STRUCTURE` | `true` | 从文件夹结构推断歌手/专辑 |
 | `DEFAULT_ARTIST` | `""` | 备用默认歌手名 |
 | `PLATFORMS` | `netease,kuwo,qq` | 搜索平台优先级 |

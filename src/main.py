@@ -11,6 +11,7 @@ from .config import Config
 from .scanner import MusicScanner
 from .tunehub_client import TuneHubClient
 from .metadata_handler import MetadataHandler
+from .embed_handler import EmbedHandler
 
 # Configure logging
 logging.basicConfig(
@@ -29,12 +30,15 @@ class LyricFlow:
         self.scanner = MusicScanner(config)
         self.client = TuneHubClient(config)
         self.handler = MetadataHandler(config)
+        self.embedder = EmbedHandler(config)
         
         # Statistics
         self.stats = {
             "scanned": 0,
             "lyrics_downloaded": 0,
             "covers_downloaded": 0,
+            "lyrics_embedded": 0,
+            "covers_embedded": 0,
             "skipped": 0,
             "failed": 0,
         }
@@ -47,6 +51,8 @@ class LyricFlow:
         logger.info(f"Music path: {self.config.music_path}")
         logger.info(f"Download lyrics: {self.config.download_lyrics}")
         logger.info(f"Download covers: {self.config.download_cover}")
+        logger.info(f"Embed lyrics: {self.config.embed_lyrics}")
+        logger.info(f"Embed covers: {self.config.embed_cover}")
         logger.info(f"Platforms: {', '.join(self.config.platforms)}")
         logger.info("=" * 50)
         
@@ -60,18 +66,30 @@ class LyricFlow:
         """Process all music files."""
         # Track which directories have been processed for covers
         processed_dirs = set()
+        embedded_dirs = set()  # Track dirs with embedded covers
         
         for music_file in self.scanner.scan():
             self.stats["scanned"] += 1
             
-            # Check what needs processing
+            # Check what needs processing (file saving)
             needs_lyrics, needs_cover = self.handler.needs_processing(music_file)
+            
+            # Check what needs embedding
+            needs_embed_lyrics = self.config.embed_lyrics and (
+                self.config.overwrite_embedded or 
+                not self.embedder.has_embedded_lyrics(music_file)
+            )
+            needs_embed_cover = self.config.embed_cover and (
+                self.config.overwrite_embedded or 
+                not self.embedder.has_embedded_cover(music_file)
+            )
             
             # Skip if cover already processed for this directory
             if music_file.path.parent in processed_dirs:
                 needs_cover = False
             
-            if not needs_lyrics and not needs_cover:
+            # Check if anything needs processing
+            if not any([needs_lyrics, needs_cover, needs_embed_lyrics, needs_embed_cover]):
                 self.stats["skipped"] += 1
                 continue
             
@@ -88,18 +106,34 @@ class LyricFlow:
                 self.stats["failed"] += 1
                 continue
             
-            # Download and save lyrics
-            if needs_lyrics:
+            # Handle lyrics (download once, use for both saving and embedding)
+            lyrics = None
+            if needs_lyrics or needs_embed_lyrics:
                 lyrics = self.client.get_lyrics(best)
-                if lyrics and self.handler.save_lyrics(music_file, lyrics):
-                    self.stats["lyrics_downloaded"] += 1
+                
+                if lyrics:
+                    # Save to file
+                    if needs_lyrics and self.handler.save_lyrics(music_file, lyrics):
+                        self.stats["lyrics_downloaded"] += 1
+                    
+                    # Embed in metadata
+                    if needs_embed_lyrics and self.embedder.embed_lyrics(music_file, lyrics):
+                        self.stats["lyrics_embedded"] += 1
             
-            # Download and save cover (once per directory)
-            if needs_cover:
+            # Handle cover (download once, use for both saving and embedding)
+            cover = None
+            if needs_cover or needs_embed_cover:
                 cover = self.client.get_cover(best)
-                if cover and self.handler.save_cover(music_file, cover):
-                    self.stats["covers_downloaded"] += 1
-                    processed_dirs.add(music_file.path.parent)
+                
+                if cover:
+                    # Save to file (once per directory)
+                    if needs_cover and self.handler.save_cover(music_file, cover):
+                        self.stats["covers_downloaded"] += 1
+                        processed_dirs.add(music_file.path.parent)
+                    
+                    # Embed in metadata (for each file)
+                    if needs_embed_cover and self.embedder.embed_cover(music_file, cover):
+                        self.stats["covers_embedded"] += 1
             
             # Small delay to be nice to the API
             time.sleep(0.2)
@@ -108,11 +142,13 @@ class LyricFlow:
         """Print processing statistics."""
         logger.info("=" * 50)
         logger.info("Processing Complete!")
-        logger.info(f"  Scanned:    {self.stats['scanned']} files")
-        logger.info(f"  Lyrics:     {self.stats['lyrics_downloaded']} downloaded")
-        logger.info(f"  Covers:     {self.stats['covers_downloaded']} downloaded")
-        logger.info(f"  Skipped:    {self.stats['skipped']} (already exists)")
-        logger.info(f"  Failed:     {self.stats['failed']} (no match)")
+        logger.info(f"  Scanned:         {self.stats['scanned']} files")
+        logger.info(f"  Lyrics saved:    {self.stats['lyrics_downloaded']}")
+        logger.info(f"  Covers saved:    {self.stats['covers_downloaded']}")
+        logger.info(f"  Lyrics embedded: {self.stats['lyrics_embedded']}")
+        logger.info(f"  Covers embedded: {self.stats['covers_embedded']}")
+        logger.info(f"  Skipped:         {self.stats['skipped']} (already exists)")
+        logger.info(f"  Failed:          {self.stats['failed']} (no match)")
         logger.info("=" * 50)
 
 
