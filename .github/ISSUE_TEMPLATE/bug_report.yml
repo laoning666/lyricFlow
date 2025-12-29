@@ -1,0 +1,123 @@
+name: 🐛 Bug 报告 / Bug Report
+description: 报告项目中的问题 / Report a bug or issue
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您花时间填写此错误报告！请尽可能详细地描述问题，以帮助我们快速定位和修复。
+        
+        Thanks for taking the time to fill out this bug report! Please be as detailed as possible to help us locate and fix the issue quickly.
+
+  - type: dropdown
+    id: deployment
+    attributes:
+      label: 部署方式 / Deployment Method
+      description: 您是如何运行 LyricFlow 的？/ How are you running LyricFlow?
+      options:
+        - Docker Compose
+        - Docker Run
+        - Local Python
+      default: 0
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: 版本 / Version
+      description: Docker 镜像标签或 commit hash / Docker image tag or commit hash
+      placeholder: "e.g., latest, v1.0.0, abc1234"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题描述 / Bug Description
+      description: 清晰简洁地描述这个问题 / A clear and concise description of what the bug is
+      placeholder: 描述您遇到的问题...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤 / Steps to Reproduce
+      description: 如何复现这个问题？/ How can we reproduce this issue?
+      placeholder: |
+        1. 配置环境变量...
+        2. 运行容器...
+        3. 查看输出...
+        4. 发现错误...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望行为 / Expected Behavior
+      description: 您期望发生什么？/ What did you expect to happen?
+      placeholder: 描述您期望的正确行为...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际行为 / Actual Behavior
+      description: 实际发生了什么？/ What actually happened?
+      placeholder: 描述实际发生的情况...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志输出 / Log Output
+      description: 请粘贴相关的日志输出 / Please paste any relevant log output
+      render: shell
+
+  - type: textarea
+    id: config
+    attributes:
+      label: 配置信息 / Configuration
+      description: 请提供您的环境变量配置（隐藏敏感信息）/ Please provide your environment variables (hide sensitive info)
+      render: yaml
+      placeholder: |
+        MUSIC_PATH: /music
+        DOWNLOAD_LYRICS: true
+        DOWNLOAD_COVER: true
+        PLATFORMS: netease,kuwo,qq
+
+  - type: textarea
+    id: music-structure
+    attributes:
+      label: 音乐文件夹结构 / Music Folder Structure
+      description: 如果与文件夹结构相关，请描述您的音乐文件夹组织方式 / If related to folder structure, please describe your music folder organization
+      render: text
+      placeholder: |
+        /music/
+        ├── Artist/
+        │   ├── Album/
+        │   │   └── song.mp3
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: 操作系统 / Operating System
+      options:
+        - Linux
+        - macOS
+        - Windows (WSL)
+        - Synology NAS
+        - QNAP NAS
+        - Other
+      default: 0
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 其他信息 / Additional Context
+      description: 添加任何其他与问题相关的信息或截图 / Add any other context or screenshots about the problem here

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 文档 / Documentation
+    url: https://github.com/laoning666/LyricFlow#readme
+    about: 请先阅读 README 文档 / Please read the README documentation first
+  - name: 💬 讨论 / Discussions
+    url: https://github.com/laoning666/LyricFlow/discussions
+    about: 加入社区讨论 / Join community discussions

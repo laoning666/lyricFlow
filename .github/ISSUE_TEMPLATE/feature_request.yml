@@ -1,0 +1,85 @@
+name: ✨ 功能请求 / Feature Request
+description: 提出新功能或改进建议 / Suggest a new feature or improvement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您提出功能建议！请详细描述您的想法，这将帮助我们更好地理解和评估您的需求。
+        
+        Thanks for suggesting a new feature! Please describe your idea in detail to help us understand and evaluate your needs.
+
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: 功能类型 / Feature Type
+      description: 这个功能请求属于哪个类别？/ What category does this feature request belong to?
+      options:
+        - 🎵 音乐处理 / Music Processing
+        - 📝 歌词相关 / Lyrics Related
+        - 🖼️ 封面相关 / Cover Art Related
+        - 🏷️ 元数据 / Metadata
+        - 🐳 Docker/部署 / Docker/Deployment
+        - 🔧 配置选项 / Configuration Options
+        - 📊 日志/监控 / Logging/Monitoring
+        - 🌐 API/平台 / API/Platform
+        - 📚 文档 / Documentation
+        - 其他 / Other
+      default: 0
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 问题描述 / Problem Description
+      description: 描述您遇到的问题或不便之处（如果有）/ Describe the problem or inconvenience you're experiencing (if any)
+      placeholder: |
+        目前的功能无法...
+        I'm always frustrated when...
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 期望的解决方案 / Proposed Solution
+      description: 清晰地描述您希望实现的功能 / Describe clearly what you'd like to see implemented
+      placeholder: |
+        我希望能够...
+        I would like to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 替代方案 / Alternatives Considered
+      description: 描述您考虑过的其他替代方案 / Describe any alternative solutions or features you've considered
+      placeholder: |
+        我也考虑过...
+        I've also considered...
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: 使用场景 / Use Case
+      description: 描述这个功能会如何帮助您或其他用户 / Describe how this feature would help you or other users
+      placeholder: |
+        这个功能对于...用户会很有用
+        This feature would be useful for users who...
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: 贡献意愿 / Contribution
+      description: 您是否愿意帮助实现这个功能？/ Would you be willing to help implement this feature?
+      options:
+        - label: 我愿意提交 PR 来实现这个功能 / I'm willing to submit a PR to implement this feature
+        - label: 我可以帮助测试这个功能 / I can help test this feature
+        - label: 我可以帮助编写文档 / I can help with documentation
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 其他信息 / Additional Context
+      description: 添加任何其他相关信息、截图或示例 / Add any other context, screenshots, or examples

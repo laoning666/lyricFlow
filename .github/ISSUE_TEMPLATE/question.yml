@@ -1,0 +1,68 @@
+name: ❓ 问题咨询 / Question
+description: 提出使用问题或寻求帮助 / Ask a question or seek help
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        有问题？我们很乐意帮助！请先查看 README 文档，如果仍有疑问，请填写以下信息。
+        
+        Got a question? We're happy to help! Please check the README first, and if you still have questions, fill out the form below.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 前置检查 / Checklist
+      description: 在提问之前，请确认以下事项 / Before asking, please confirm the following
+      options:
+        - label: 我已阅读 README 文档 / I have read the README documentation
+          required: true
+        - label: 我已搜索现有 Issues，没有找到类似问题 / I have searched existing Issues and found no similar questions
+          required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: 问题类别 / Question Category
+      options:
+        - 安装/部署 / Installation/Deployment
+        - 配置 / Configuration
+        - 使用方法 / Usage
+        - 兼容性 / Compatibility
+        - 性能 / Performance
+        - 其他 / Other
+      default: 0
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: 您的问题 / Your Question
+      description: 请清晰地描述您的问题 / Please describe your question clearly
+      placeholder: |
+        请详细描述您的问题...
+        Please describe your question in detail...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 相关背景 / Context
+      description: 提供任何有助于理解问题的背景信息 / Provide any context that helps understand the question
+      placeholder: |
+        我的使用环境是...
+        我正在尝试...
+        My environment is...
+        I'm trying to...
+
+  - type: textarea
+    id: tried
+    attributes:
+      label: 已尝试的方法 / What You've Tried
+      description: 描述您已经尝试过的解决方法 / Describe what you've already tried
+      placeholder: |
+        我尝试了...
+        I've tried...
