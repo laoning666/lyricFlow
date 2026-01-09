@@ -13,7 +13,7 @@
 - 🔄 Incremental processing (skip existing files)
 - ⏰ Scheduled scanning mode
 - 🐳 Docker support
-- 📁 **STRM file support** - Works with cloud storage streaming files
+- 📁 STRM file support - Works with cloud storage streaming files
 
 ## Docker Images
 
@@ -109,7 +109,6 @@ For best results, organize your music like this:
 Two structures are supported:
 1. **Artist/Album/Song.mp3** (Recommended): Automatically infers Artist and Album.
 2. **Artist/Song.mp3**: Automatically infers Artist (Album will be empty).
-```
 
 The tool will:
 1. Read artist from folder name (or ID3 tag if available)
