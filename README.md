@@ -14,6 +14,7 @@
 - ⏰ Scheduled scanning mode
 - 🐳 Docker support
 - 📁 STRM file support - Works with cloud storage streaming files
+- 🔌 Multiple API providers - TuneHub or LrcApi
 
 ## Docker Images
 
@@ -91,7 +92,10 @@ python -m src.main
 | `UPDATE_BASIC_INFO` | `false` | Write artist/title/album to metadata |
 | `USE_FOLDER_STRUCTURE` | `true` | Infer artist/album from folder structure |
 | `DEFAULT_ARTIST` | `""` | Fallback artist name |
-| `PLATFORMS` | `netease,kuwo,qq` | Search platform priority |
+| `API_PROVIDER` | `tunehub` | API provider (`tunehub` or `lrcapi`) |
+| `PLATFORMS` | `netease,kuwo,qq` | Search platform priority (TuneHub only) |
+| `LRCAPI_URL` | `https://api.lrc.cx` | LrcApi server URL |
+| `LRCAPI_AUTH` | `""` | LrcApi authentication key (optional) |
 
 ## Folder Structure
 
@@ -160,9 +164,38 @@ Local:                          Cloud Storage:
 
 > **Note**: Embedding metadata into STRM files is not supported (they are text files). Use `DOWNLOAD_LYRICS=true` and `DOWNLOAD_COVER=true` instead.
 
-## API Source
+## API Providers
 
-This tool uses [TuneHub API](https://music-dl.sayqz.com) for searching and downloading lyrics/covers from multiple music platforms (NetEase, Kuwo, QQ Music).
+LyricFlow supports multiple API providers for searching lyrics and covers:
+
+### TuneHub (Default)
+
+Aggregates results from multiple music platforms (NetEase, Kuwo, QQ Music).
+
+```bash
+# Default, no configuration needed
+docker run --rm -v /your/music:/music ghcr.io/laoning666/lyricflow:latest
+```
+
+### LrcApi
+
+[LrcApi](https://github.com/HisAtri/LrcApi) is a self-hosted lyrics API. You can use the public API or deploy your own instance.
+
+```bash
+# Using public LrcApi
+docker run --rm \
+  -e API_PROVIDER=lrcapi \
+  -v /your/music:/music \
+  ghcr.io/laoning666/lyricflow:latest
+
+# Using self-hosted LrcApi with authentication
+docker run --rm \
+  -e API_PROVIDER=lrcapi \
+  -e LRCAPI_URL=http://192.168.1.100:28883 \
+  -e LRCAPI_AUTH=your_auth_key \
+  -v /your/music:/music \
+  ghcr.io/laoning666/lyricflow:latest
+```
 
 ## License
 

@@ -14,6 +14,7 @@
 - ⏰ 支持定时扫描模式
 - 🐳 Docker 容器化部署
 - 📁 STRM 文件支持 - 支持网盘流媒体文件
+- 🔌 多 API 提供商 - 支持 TuneHub 或 LrcApi
 
 ## Docker 镜像
 
@@ -91,7 +92,10 @@ python -m src.main
 | `UPDATE_BASIC_INFO` | `false` | 将 艺术家/标题/专辑 写入元数据 |
 | `USE_FOLDER_STRUCTURE` | `true` | 从文件夹结构推断歌手/专辑 |
 | `DEFAULT_ARTIST` | `""` | 备用默认歌手名 |
-| `PLATFORMS` | `netease,kuwo,qq` | 搜索平台优先级 |
+| `API_PROVIDER` | `tunehub` | API 提供商（`tunehub` 或 `lrcapi`） |
+| `PLATFORMS` | `netease,kuwo,qq` | 搜索平台优先级（仅 TuneHub） |
+| `LRCAPI_URL` | `https://api.lrc.cx` | LrcApi 服务器地址 |
+| `LRCAPI_AUTH` | `""` | LrcApi 鉴权密钥（可选） |
 
 ## 文件夹结构
 
@@ -160,9 +164,38 @@ LyricFlow 支持 `.strm`（流媒体）文件，适用于基于网盘的音乐�
 
 > **注意**：STRM 文件是文本文件，不支持嵌入元数据。请使用 `DOWNLOAD_LYRICS=true` 和 `DOWNLOAD_COVER=true` 下载到本地文件。
 
-## API 来源
+## API 提供商
 
-本工具使用 [TuneHub API](https://music-dl.sayqz.com) 从多个音乐平台（网易云、酷我、QQ音乐）搜索和下载歌词/封面。
+LyricFlow 支持多个 API 提供商用于搜索歌词和封面：
+
+### TuneHub（默认）
+
+聚合多个音乐平台（网易云、酷我、QQ音乐）的搜索结果。
+
+```bash
+# 默认，无需额外配置
+docker run --rm -v /你的音乐路径:/music ghcr.io/laoning666/lyricflow:latest
+```
+
+### LrcApi
+
+[LrcApi](https://github.com/HisAtri/LrcApi) 是一个可自建的歌词 API。你可以使用公开 API 或部署自己的实例。
+
+```bash
+# 使用公开 LrcApi
+docker run --rm \
+  -e API_PROVIDER=lrcapi \
+  -v /你的音乐路径:/music \
+  ghcr.io/laoning666/lyricflow:latest
+
+# 使用自建 LrcApi（带鉴权）
+docker run --rm \
+  -e API_PROVIDER=lrcapi \
+  -e LRCAPI_URL=http://192.168.1.100:28883 \
+  -e LRCAPI_AUTH=你的鉴权密钥 \
+  -v /你的音乐路径:/music \
+  ghcr.io/laoning666/lyricflow:latest
+```
 
 ## 开源协议
 

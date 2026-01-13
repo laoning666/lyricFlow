@@ -9,7 +9,7 @@ import time
 import logging
 from .config import Config
 from .scanner import MusicScanner
-from .tunehub_client import TuneHubClient
+from .providers import get_provider
 from .metadata_handler import MetadataHandler
 from .embed_handler import EmbedHandler
 
@@ -28,7 +28,7 @@ class LyricFlow:
     def __init__(self, config: Config):
         self.config = config
         self.scanner = MusicScanner(config)
-        self.client = TuneHubClient(config)
+        self.client = get_provider(config)
         self.handler = MetadataHandler(config)
         self.embedder = EmbedHandler(config)
         
@@ -49,13 +49,15 @@ class LyricFlow:
         logger.info("=" * 50)
         logger.info("LyricFlow - Music Metadata Tool")
         logger.info("=" * 50)
+        logger.info(f"API provider: {self.config.api_provider}")
         logger.info(f"Music path: {self.config.music_path}")
         logger.info(f"Download lyrics: {self.config.download_lyrics}")
         logger.info(f"Download covers: {self.config.download_cover}")
         logger.info(f"Update lyrics: {self.config.update_lyrics}")
         logger.info(f"Update covers: {self.config.update_cover}")
         logger.info(f"Update basic info: {self.config.update_basic_info}")
-        logger.info(f"Platforms: {', '.join(self.config.platforms)}")
+        if self.config.api_provider == "tunehub":
+            logger.info(f"Platforms: {', '.join(self.config.platforms)}")
         logger.info("=" * 50)
         
         try:
