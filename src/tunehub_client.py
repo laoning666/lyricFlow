@@ -1,35 +1,16 @@
 # TuneHub API Client
+# NOTE: This module is kept for backward compatibility.
+# New code should use src.providers.get_provider() instead.
 import httpx
 import logging
-from dataclasses import dataclass
 from typing import Optional
 from .config import Config
 
+# Import SearchResult from the unified location for consistency
+# Re-export it here for backward compatibility with existing code
+from .providers.base import SearchResult
+
 logger = logging.getLogger(__name__)
-
-
-@dataclass
-class SearchResult:
-    """A single search result from TuneHub API."""
-    id: str
-    name: str
-    artist: str
-    album: str
-    platform: str
-    lrc_url: str
-    pic_url: str
-    
-    @classmethod
-    def from_dict(cls, data: dict) -> "SearchResult":
-        return cls(
-            id=data.get("id", ""),
-            name=data.get("name", ""),
-            artist=data.get("artist", ""),
-            album=data.get("album", ""),
-            platform=data.get("platform", ""),
-            lrc_url=data.get("lrc", ""),
-            pic_url=data.get("pic", ""),
-        )
 
 
 class TuneHubClient:
