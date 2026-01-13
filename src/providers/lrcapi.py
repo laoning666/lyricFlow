@@ -2,7 +2,6 @@
 import httpx
 import logging
 from typing import Optional
-from urllib.parse import urlencode
 from .base import LyricsProviderBase, SearchResult
 from ..config import Config
 
