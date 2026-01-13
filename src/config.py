@@ -8,8 +8,15 @@ from typing import Optional
 class Config:
     """Application configuration from environment variables."""
     
+    # API Provider selection
+    api_provider: str = "tunehub"  # "tunehub" or "lrcapi"
+    
     # TuneHub API
     api_base_url: str = "https://music-dl.sayqz.com"
+    
+    # LrcApi settings
+    lrcapi_url: str = "https://api.lrc.cx"  # LrcApi server URL
+    lrcapi_auth: str = ""  # LrcApi authentication key (optional)
     
     # Scanning
     music_path: str = "/music"
@@ -50,7 +57,10 @@ class Config:
         platforms = [p.strip() for p in platforms_str.split(",") if p.strip()]
         
         return cls(
+            api_provider=os.getenv("API_PROVIDER", "tunehub"),
             api_base_url=os.getenv("API_BASE_URL", "https://music-dl.sayqz.com"),
+            lrcapi_url=os.getenv("LRCAPI_URL", "https://api.lrc.cx"),
+            lrcapi_auth=os.getenv("LRCAPI_AUTH", ""),
             music_path=os.getenv("MUSIC_PATH", "/music"),
             scan_interval_days=int(os.getenv("SCAN_INTERVAL_DAYS", "0")),
             download_lyrics=os.getenv("DOWNLOAD_LYRICS", "true").lower() == "true",
