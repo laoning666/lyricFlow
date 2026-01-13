@@ -63,13 +63,16 @@ class LrcApiProvider(LyricsProviderBase):
         """
         Fetch lyrics from LrcApi.
         
-        Uses /lyrics endpoint with title and artist parameters.
+        Uses /lyrics endpoint with title, album, and artist parameters.
+        Album helps improve matching accuracy.
         Returns LRC format text directly.
         """
         try:
             params = {}
             if result.name:
                 params["title"] = result.name
+            if result.album:
+                params["album"] = result.album
             if result.artist:
                 params["artist"] = result.artist
             

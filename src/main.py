@@ -93,8 +93,8 @@ class LyricFlow:
                 self.stats["skipped"] += 1
                 continue
             
-            # Search for the song
-            results = self.client.search(music_file.artist, music_file.title)
+            # Search for the song (pass album for better matching with LrcApi)
+            results = self.client.search(music_file.artist, music_file.title, music_file.album)
             if not results:
                 logger.warning(f"✗ No results: {music_file.artist} - {music_file.title}")
                 self.stats["failed"] += 1
