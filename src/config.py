@@ -26,6 +26,11 @@ class Config:
     update_cover: bool = False       # Write cover to audio metadata
     update_basic_info: bool = False  # Write artist/title/album from API
     
+    # Force update behavior (overwrite existing metadata)
+    force_update_lyrics: bool = True      # Overwrite existing lyrics metadata
+    force_update_cover: bool = True       # Overwrite existing cover metadata
+    force_update_basic_info: bool = True  # Overwrite existing basic info
+    
     # Default artist (used when ID3 tag has no artist info and folder inference fails)
     default_artist: str = ""
     
@@ -60,6 +65,9 @@ class Config:
             update_lyrics=os.getenv("UPDATE_LYRICS", "false").lower() == "true",
             update_cover=os.getenv("UPDATE_COVER", "false").lower() == "true",
             update_basic_info=os.getenv("UPDATE_BASIC_INFO", "false").lower() == "true",
+            force_update_lyrics=os.getenv("FORCE_UPDATE_LYRICS", "true").lower() == "true",
+            force_update_cover=os.getenv("FORCE_UPDATE_COVER", "true").lower() == "true",
+            force_update_basic_info=os.getenv("FORCE_UPDATE_BASIC_INFO", "true").lower() == "true",
             default_artist=os.getenv("DEFAULT_ARTIST", ""),
             use_folder_structure=os.getenv("USE_FOLDER_STRUCTURE", "true").lower() == "true",
             platforms=platforms,

@@ -77,16 +77,33 @@ class LyricFlow:
             needs_lyrics, needs_cover = self.handler.needs_processing(music_file)
             
             # Check what needs updating (write to audio metadata)
-            # When UPDATE_*=true, always update (overwrite)
+            # When UPDATE_*=true and FORCE_UPDATE_*=true, always update (overwrite)
+            # When UPDATE_*=true and FORCE_UPDATE_*=false, only update if no existing metadata
             needs_update_lyrics = self.config.update_lyrics
             needs_update_cover = self.config.update_cover
+            needs_update_basic_info = self.config.update_basic_info
+            
+            # If force_update is false, check if metadata already exists
+            if needs_update_lyrics and not self.config.force_update_lyrics:
+                if not music_file.is_strm and self.embedder.has_embedded_lyrics(music_file):
+                    needs_update_lyrics = False
+                    logger.debug(f"Skipping lyrics update (already exists): {music_file.path.name}")
+            
+            if needs_update_cover and not self.config.force_update_cover:
+                if not music_file.is_strm and self.embedder.has_embedded_cover(music_file):
+                    needs_update_cover = False
+                    logger.debug(f"Skipping cover update (already exists): {music_file.path.name}")
+            
+            if needs_update_basic_info and not self.config.force_update_basic_info:
+                if not music_file.is_strm and self.embedder.has_basic_info(music_file):
+                    needs_update_basic_info = False
+                    logger.debug(f"Skipping basic info update (already exists): {music_file.path.name}")
             
             # Skip if cover already processed for this directory
             if music_file.path.parent in processed_dirs:
                 needs_cover = False
             
             # Check if anything needs processing
-            needs_update_basic_info = self.config.update_basic_info
             if not any([needs_lyrics, needs_cover, needs_update_lyrics, needs_update_cover, needs_update_basic_info]):
                 self.stats["skipped"] += 1
                 continue

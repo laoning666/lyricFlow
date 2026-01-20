@@ -38,6 +38,14 @@ services:
       - UPDATE_COVER=false
       - UPDATE_BASIC_INFO=false
       
+      # Force overwrite existing metadata (only effective when UPDATE_*=true)
+      # 强制覆盖已有元数据（仅当 UPDATE_*=true 时生效）
+      # Set to false to skip files with existing metadata
+      # 设为 false 则跳过已有元数据的文件
+      - FORCE_UPDATE_LYRICS=true
+      - FORCE_UPDATE_COVER=true
+      - FORCE_UPDATE_BASIC_INFO=true
+      
       # Infer artist/album from folder structure
       # 从文件夹结构推断歌手/专辑
       # Supported: /music/Artist/Album/song.mp3 OR /music/Artist/song.mp3

@@ -43,6 +43,11 @@ ENV UPDATE_LYRICS=false
 ENV UPDATE_COVER=false
 ENV UPDATE_BASIC_INFO=false
 
+# Force overwrite existing metadata / 强制覆盖已有元数据
+ENV FORCE_UPDATE_LYRICS=true
+ENV FORCE_UPDATE_COVER=true
+ENV FORCE_UPDATE_BASIC_INFO=true
+
 # Artist inference / 歌手推断
 ENV DEFAULT_ARTIST=""
 ENV USE_FOLDER_STRUCTURE=true

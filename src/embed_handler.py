@@ -409,5 +409,30 @@ class EmbedHandler:
         except Exception as e:
             logger.error(f"Failed to update info for {music_file.path}: {e}")
             return False
+    
+    def has_basic_info(self, music_file: MusicFile) -> bool:
+        """
+        Check if the file already has basic metadata (artist, title, album).
+        Returns True if all three fields are present and non-empty.
+        """
+        ext = music_file.path.suffix.lower()
+        
+        if ext not in self.EMBEDDERS:
+            return False
+        
+        try:
+            audio = MutagenFile(music_file.path, easy=True)
+            if audio is None:
+                return False
+            
+            # Check if all basic fields exist and have non-empty values
+            has_artist = bool(audio.get("artist", [None])[0])
+            has_title = bool(audio.get("title", [None])[0])
+            has_album = bool(audio.get("album", [None])[0])
+            
+            return has_artist and has_title and has_album
+            
+        except Exception:
+            return False
 
 
